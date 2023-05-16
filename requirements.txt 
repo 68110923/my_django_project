@@ -2,3 +2,4 @@
 
 
 django==3.2.19
+mysqlclient==2.1.1
