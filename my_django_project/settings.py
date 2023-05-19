@@ -10,6 +10,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 import os
+import sys
 from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -22,9 +23,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = "django-insecure-b_1pwq4pux-u!ll36rckza-85qp=sq*6(o40&2zcickuf$ac#7"
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = True if sys.platform == 'darwin' else False
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -113,8 +114,18 @@ STATIC_URL = "static/"
 
 DEFAULT_AUTO_FIELD = "django.db.models.BigAutoField"
 
+# *********************************新增***************************************
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+# 设置图片访问统一路由
+MEDIA_URL = '/media/'
+
 # 静态文件
-STATIC_ROOT = os.path.join(BASE_DIR, "static")
+if DEBUG:
+    STATICFILES_DIRS = [
+        os.path.join(BASE_DIR, "static"),
+    ]
+else:
+    STATIC_ROOT = os.path.join(BASE_DIR, "static")
 
 # 打印sql日志
 # LOGGING = {
