@@ -11,3 +11,4 @@ echo -e '\n------------------------going to close -----------------'
 ps -ef |grep uwsgi.ini | grep -v grep | awk '{print $2}' | xargs kill -9
 
 sleep 0.5
+

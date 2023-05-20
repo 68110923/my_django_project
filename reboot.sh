@@ -14,7 +14,11 @@ sleep 0.5
 
 echo -e '\n------------------------check if the kill action is correct -----------------'
 
-newenv/bin/uwsgi --ini  uwsgi.ini & >/dev/null
+
+source /www/wwwroot/root/my_django_project/newenv/bin/activate
+sleep 1
+
+uwsgi --ini  uwsgi.ini & >/dev/null
 
 echo -e "\033[34m---------------------started...--------------------------\033[0m"
 sleep 1

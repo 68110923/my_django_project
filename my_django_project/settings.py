@@ -24,7 +24,9 @@ SECRET_KEY = "django-insecure-b_1pwq4pux-u!ll36rckza-85qp=sq*6(o40&2zcickuf$ac#7
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True if sys.platform == 'darwin' else False
-
+# degug为false 时不会访问静态页面，所以直接访问8000端口会报错  可以编辑配置其他选项--insecure   下面的设置*是任何人都可以通过8000端口访问，这是不安全的，
+# 因为部署了uwsgi，可以通过uwsgi来访问本地的8000端口，此处只允许本地主机访问就可以，这样就避免了直接访问项目导致的不安全性
+#实测 设置为主机的话 会报400错误。 在uwsgi.ini中设置了127.0.0.1：8000就可以了，这样8000端口就已经是内部访问的了。
 ALLOWED_HOSTS = ['*']
 
 # Application definition
