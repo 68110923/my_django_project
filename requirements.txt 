@@ -8,3 +8,5 @@ celery==5.2.7
 django-celery-beat==2.5.0
 django-celery-results==2.5.1
 playwright==1.33.0
+redis==4.5.5
+eventlet==0.33.3
