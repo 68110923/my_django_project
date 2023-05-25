@@ -16,7 +16,8 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include,re_path
-from api.views import test_celery
+from api.views import test_celery,add_task
 urlpatterns = [
-    path(r'test/', test_celery),
+    path('test/', test_celery),
+    path('add/task/', add_task),
 ]

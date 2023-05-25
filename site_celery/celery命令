@@ -1,0 +1,25 @@
+'''
+启动命令 celery
+worker:
+celery -A site_celery.main worker -l info -n workerA.%h -P eventlet -Q crawl_task1
+celery -A site_celery.main worker -l info -n workerB.%h -P eventlet -Q crawl_task2
+启动定时任务  celery_beat  :
+celery -A site_celery.main beat -l info   #启动beat 调度器使用数据库
+celery -A site_celery.main -l info #启动woker
+celery -A site_celery.main  beat -l info  -f logging/schedule_tasks.log --detach
+
+后台启动
+celery multi start workerA -A site_celery.main -l INFO
+停止
+celery multi stop workerA -A site_celery.main -l INFO
+任务执行完再停止
+celery multi stopwait workerA -A site_celery.main -l INFO
+
+
+
+liunx
+
+nohup celery -A site_celery.main beat -l info -f script/task.log --pidfile=/var/run/celery/site_celery.pid&
+nohup celery -A site_celery.main worker -c 4 -l info -f script/task.log --pidfile=/var/run/celery/site_celery.pid&
+
+'''

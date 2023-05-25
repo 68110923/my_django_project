@@ -26,7 +26,7 @@ class Task(models.Model):
         # managed = False  # 默认由Ture django管理
         # db_table = 'plat_logistics_track'   # 指定表
         verbose_name = f'任务'
-        verbose_name_plural = verbose_name
+        verbose_name_plural = '任务'
         unique_together = (
             ('account', 'spider', 'name'),
         )

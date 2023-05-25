@@ -9,6 +9,9 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+
+
+
 import os
 import sys
 from pathlib import Path
@@ -53,6 +56,7 @@ MIDDLEWARE = [
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.locale.LocaleMiddleware",   #将Admin系统的语言本地化  等效于  将配置项LANGUAGE_CODE的值设置为"zh-Hans"，TIME_ZONE的值设置为"Asia/Shanghai"
 ]
 
 ROOT_URLCONF = "my_django_project.urls"
@@ -149,4 +153,7 @@ else:
 #         },
 #     }
 # }
-
+#要设置这个，不然启动celery_beat时，会报时区不同步的错误  TypeError: can't compare offset-naive and offset-aware datetimes
+DJANGO_CELERY_BEAT_TZ_AWARE = False
+#允许异步模式  不设置会报错   You cannot call this from an async context - use a thread or sync_to_async.
+os.environ['DJANGO_ALLOW_ASYNC_UNSAFE'] = 'true'

@@ -1,28 +1,50 @@
 from celery.schedules import crontab
 import datetime
 from kombu import Exchange, Queue
+# 可以用此种方式配置，但对于大项目来说用配置文件
+# app.conf.task_serializer = 'json'
+# app.conf.update(
+#     task_serializer='json',
+#     accept_content=['json'],  # Ignore other content
+#     result_serializer='json',
+#     timezone='Europe/Oslo',
+#     enable_utc=True,
+# )
+# 配置文件6.0以后是这样
+# broker_url = 'pyamqp://'
+# result_backend = 'rpc://'
+#
+# task_serializer = 'json'
+# result_serializer = 'json'
+# accept_content = ['json']
+# timezone = 'Europe/Oslo'
+# enable_utc = True
 
 # celery 配置
 # CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
-BROKER_URL = 'redis://106.13.1.144:6379/1'
-CELERY_TIMEZONE = 'Asia/Shanghai'
-DJANGO_CELERY_BEAT_TZ_AWARE = False
+broker_url = 'redis://106.13.1.144:6379/1'
+result_backend = "django-db"
+# result_backend = 'redis://106.13.1.144:6379/2'
+timezone = 'Asia/Shanghai'
+timezone_aware = False
 
-CELERYD_CONCURRENCY = 20  # 并发worker数
-CELERYD_MAX_TASKS_PER_CHILD = 100  # 每个worker最多执行万100个任务就会被销毁，可防止内存泄露
-CELERYD_TASK_TIME_LIMIT = 60  # 单个任务的运行时间不超过此值，否则会被SIGKILL 信号杀死
+worker_concurrency = 10  # 并发worker数
+# CELERYD_MAX_TASKS_PER_CHILD = 100  # 每个worker最多执行万100个任务就会被销毁，可防止内存泄露
+task_track_started = True   # 任务在worker执行时将其状态报告为“已启动”
+task_time_limit = 60 * 60 * 20  # 单个任务的运行时间不超过此值，否则会被SIGKILL 信号杀死 默认值：无时间限制。 任务超时时间限制20小时
+result_backend_transport_options = {'visibility_timeout': 60 * 60 * 24}  # 24 hours
 # CELERY_TASK_ALWAYS_EAGER = True
 CELERYD_FORCE_EXECV = True  # 非常重要,有些情况下可以防止死锁
 # CELERY_CACHE_BACKEND = 'default'
 # 支持数据库django-db和缓存django-cache存储任务状态及结果
 # 建议选django-db
-CELERY_RESULT_BACKEND = "django-db"
+
 # celery内容等消息的格式设置，默认json
-CELERY_ACCEPT_CONTENT = ['application/json', ]
-CELERY_TASK_SERIALIZER = 'json'
-CELERY_RESULT_SERIALIZER = 'json'
-ENABLE_UTC = False
-CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
+accept_content = ['application/json', ]
+task_serializer = 'json'
+result_serializer = 'json'
+enable_utc = False
+beat_scheduler = 'django_celery_beat.schedulers:DatabaseScheduler'
 
 # 定时任务配置如下
 
@@ -38,20 +60,21 @@ CELERY_BEAT_SCHEDULER = 'django_celery_beat.schedulers:DatabaseScheduler'
 #     #     'args': [4, 5]
 #     # }
 # }
-
-# 定义celery各个队列的名称
-CELERY_QUEUES = (
-    Queue("default", Exchange("default"), routing_key="default"),
-    Queue("crawl_task1", Exchange("crawl_task1"), routing_key="task_mots"),
-    Queue("crawl_task2", Exchange("crawl_task2"), routing_key="task_btest")
-)
-
 # 注意: 使用 redis 作为 broker 时, 队列名称,Exchange名称,queue名称 必须保持一致
-CELERY_ROUTES = {
-    "*": {"queue": "default", "routing_key": "default"},
-    "task*": {"queue": "crawl_task1", "routing_key": "task_mots"},
-    "task2": {"queue": "crawl_task2", "routing_key": "task_btest"},
+# 默认队列的队列名为celery  不是default,当不指定队列名时会放到celery队列中。
+task_routes = {
+
+    "crawler.amazon.amazon_detail.*": {"queue": "crawl_task1"},
+    "site_celery.crawl_task2.tasks.*": {"queue": "crawl_task2"},
+    "*": {"queue": "default"},
 }
+# 定义celery各个队列的名称     x-max-priority是优先级 数字越大越先做
+task_queues = (
+    Queue("crawl_task1", Exchange("crawl_task1"), routing_key="crawler.amazon.amazon_detail.*",queue_arguments={'x-max-priority': 1}),
+    Queue("crawl_task2", Exchange("crawl_task2"), routing_key="site_celery.crawl_task2.tasks.*",queue_arguments={'x-max-priority': 10}),
+    Queue("default", Exchange("default"), routing_key="api.task.*"),
+    # Queue('tasks', Exchange('tasks'), routing_key='tasks',queue_arguments={'x-max-priority': 10}),
+)
 
 # 注意: 使用 redis 作为 broker 时, 队列名称,Exchenge名称,queue名称 必须保持一致
 
@@ -80,14 +103,14 @@ CELERY_ROUTES = {
 # .%h 对应不同主机ip  如果默认localhost，所以可以省略.%h
 
 启动命令
-    Celery -A site_celery.main worker -l info -n workerA.%h -P eventlet -Q crawl_task1
-    Celery -A site_celery.main worker -l info -n workerB.%h -P eventlet -Q crawl_task2
-    Celery -A site_celery.main worker -l info -n workerB.%h -P eventlet --pool=solo
+    celery -A site_celery.main worker -l info -n workerA.%h -P eventlet -Q crawl_task1
+    celery -A site_celery.main worker -l info -n workerB.%h -P eventlet -Q crawl_task2
+    celery -A site_celery.main worker -l info -n workerB.%h -P eventlet --pool=solo
 
     # 启动定时任务
     # 当任务没有指定queue 则任务会加入default 队列 beat(定时任务也会加入default队列)
     # celery beat -A site_celery.main -l INFO
-    # Celery -A site_celery.main  beat -l info  -f logging/schedule_tasks.log --detach
+    # celery -A site_celery.main  beat -l info  -f logging/schedule_tasks.log --detach
     # --detach: 后台运行
     # -f logging/schedule_tasks.log : 后台输出路径pip
     # --scheduler : 指定获取定时任务的方式，这里是从后台数据库中获取
