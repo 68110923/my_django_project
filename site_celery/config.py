@@ -21,45 +21,17 @@ from kombu import Exchange, Queue
 # enable_utc = True
 
 # celery 配置
-# CELERY_BROKER_URL = 'redis://127.0.0.1:6379/0'
+# CELERY_BROKER_URL = 'redis://127.0.0.1:6379/1'
+
+#队列
 broker_url = 'redis://106.13.1.144:6379/1'
-result_backend = "django-db"
-# result_backend = 'redis://106.13.1.144:6379/2'
-timezone = 'Asia/Shanghai'
-timezone_aware = False
-
-worker_concurrency = 10  # 并发worker数
-# CELERYD_MAX_TASKS_PER_CHILD = 100  # 每个worker最多执行万100个任务就会被销毁，可防止内存泄露
-task_track_started = True   # 任务在worker执行时将其状态报告为“已启动”
-task_time_limit = 60 * 60 * 20  # 单个任务的运行时间不超过此值，否则会被SIGKILL 信号杀死 默认值：无时间限制。 任务超时时间限制20小时
-result_backend_transport_options = {'visibility_timeout': 60 * 60 * 24}  # 24 hours
-# CELERY_TASK_ALWAYS_EAGER = True
-CELERYD_FORCE_EXECV = True  # 非常重要,有些情况下可以防止死锁
-# CELERY_CACHE_BACKEND = 'default'
-# 支持数据库django-db和缓存django-cache存储任务状态及结果
-# 建议选django-db
-
-# celery内容等消息的格式设置，默认json
-accept_content = ['application/json', ]
-task_serializer = 'json'
-result_serializer = 'json'
-enable_utc = False
-beat_scheduler = 'django_celery_beat.schedulers:DatabaseScheduler'
-
-# 定时任务配置如下
-
-# CELERY_BEAT_SCHEDULER = {
-#     'beat_task1': {
-#         'task': 'schedule_add',
-#         'schedule': datetime.timedelta(seconds=10),
-#         'args': (2, 8)
-#     },
-#     # 'beat_task2': {
-#     #     'task': 'mots_add',
-#     #     'schedule': crontab(hour=4, minute=25),
-#     #     'args': [4, 5]
-#     # }
-# }
+broker_transport_options = {
+    'queue_order_strategy': 'priority',
+    # 'fanout_patterns': True,
+    # 'fanout_prefix': True,
+}
+task_queue_max_priority = 6  # 默认优先级0-10
+# task_default_queue = 'normal'  # 默认队列  自己不设置就是celery
 # 注意: 使用 redis 作为 broker 时, 队列名称,Exchange名称,queue名称 必须保持一致
 # 默认队列的队列名为celery  不是default,当不指定队列名时会放到celery队列中。
 task_routes = {
@@ -75,6 +47,49 @@ task_queues = (
     Queue("default", Exchange("default"), routing_key="api.task.*"),
     # Queue('tasks', Exchange('tasks'), routing_key='tasks',queue_arguments={'x-max-priority': 10}),
 )
+
+#存储
+result_backend = "django-db"
+# result_backend = 'redis://106.13.1.144:6379/2'
+# celery内容等消息的格式设置，默认json
+accept_content = ['application/json', ]
+task_serializer = 'json'
+result_serializer = 'json'
+result_persistent = False
+enable_utc = False
+timezone = 'Asia/Shanghai'
+timezone_aware = False
+worker_concurrency = 10  # 并发worker数
+beat_scheduler = 'django_celery_beat.schedulers:DatabaseScheduler'
+
+# CELERYD_MAX_TASKS_PER_CHILD = 100  # 每个worker最多执行万100个任务就会被销毁，可防止内存泄露
+task_track_started = True   # 任务在worker执行时将其状态报告为“已启动”
+task_time_limit = 60 * 60 * 20  # 单个任务的运行时间不超过此值，否则会被SIGKILL 信号杀死 默认值：无时间限制。 任务超时时间限制20小时
+result_backend_transport_options = {'visibility_timeout': 60 * 60 * 24}  # 24 hours
+# CELERY_TASK_ALWAYS_EAGER = True
+CELERYD_FORCE_EXECV = True  # 非常重要,有些情况下可以防止死锁
+# CELERY_CACHE_BACKEND = 'default'
+# 支持数据库django-db和缓存django-cache存储任务状态及结果
+# 建议选django-db
+
+
+
+
+# 定时任务配置如下
+
+# CELERY_BEAT_SCHEDULER = {
+#     'beat_task1': {
+#         'task': 'schedule_add',
+#         'schedule': datetime.timedelta(seconds=10),
+#         'args': (2, 8)
+#     },
+#     # 'beat_task2': {
+#     #     'task': 'mots_add',
+#     #     'schedule': crontab(hour=4, minute=25),
+#     #     'args': [4, 5]
+#     # }
+# }
+
 
 # 注意: 使用 redis 作为 broker 时, 队列名称,Exchenge名称,queue名称 必须保持一致
 
