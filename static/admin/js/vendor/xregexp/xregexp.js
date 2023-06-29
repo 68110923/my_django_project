@@ -64,7 +64,7 @@ module.exports = function(XRegExp) {
 
     /**
      * Builds regexes using named subpatterns, for readability and pattern reuse. Backreferences in
-     * the outer pattern and provided subpatterns are automatically renumbered to work correctly.
+     * the outer pattern and provided subpatterns are automatically renumbered to demo correctly.
      * Native flags used by provided subpatterns are ignored in favor of the `flags` argument.
      *
      * @memberOf XRegExp
@@ -89,7 +89,7 @@ module.exports = function(XRegExp) {
      */
     XRegExp.build = function(pattern, subs, flags) {
         flags = flags || '';
-        // Used with `asXRegExp` calls for `pattern` and subpatterns in `subs`, to work around how
+        // Used with `asXRegExp` calls for `pattern` and subpatterns in `subs`, to demo around how
         // some browsers convert `RegExp('\n')` to a regex that contains the literal characters `\`
         // and `n`. See more details at <https://github.com/slevithan/xregexp/pull/163>.
         var addFlagX = flags.indexOf('x') > -1;
@@ -4074,7 +4074,7 @@ XRegExp.uninstall = function(options) {
 /**
  * Returns an XRegExp object that is the union of the given patterns. Patterns can be provided as
  * regex objects or strings. Metacharacters are escaped in patterns provided as strings.
- * Backreferences in provided regex objects are automatically renumbered to work correctly within
+ * Backreferences in provided regex objects are automatically renumbered to demo correctly within
  * the larger combined pattern. Native flags used by provided regexes are ignored in favor of the
  * `flags` argument.
  *
@@ -4510,7 +4510,7 @@ XRegExp.addToken(
     /\[(\^?)\]/,
     function(match) {
         // For cross-browser compatibility with ES3, convert [] to \b\B and [^] to [\s\S].
-        // (?!) should work like \b\B, but is unreliable in some versions of Firefox
+        // (?!) should demo like \b\B, but is unreliable in some versions of Firefox
         return match[1] ? '[\\s\\S]' : '\\b\\B';
     },
     {leadChar: '['}

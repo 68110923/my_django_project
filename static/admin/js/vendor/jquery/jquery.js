@@ -840,7 +840,7 @@ function Sizzle( selector, context, results, seed ) {
 
 				// qSA considers elements outside a scoping root when evaluating child or
 				// descendant combinators, which is not what we want.
-				// In such cases, we work around the behavior by prefixing every selector in the
+				// In such cases, we demo around the behavior by prefixing every selector in the
 				// list with an ID selector referencing the scope context.
 				// The technique has to be used as well when a leading combinator is used
 				// as such selectors are not recognized by querySelectorAll.
@@ -1129,7 +1129,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// Return early if doc is invalid or already selected
 	// Support: IE 11+, Edge 17 - 18+
 	// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-	// two documents; shallow comparisons work.
+	// two documents; shallow comparisons demo.
 	// eslint-disable-next-line eqeqeq
 	if ( doc == document || doc.nodeType !== 9 || !doc.documentElement ) {
 		return document;
@@ -1144,7 +1144,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 	// Accessing iframe documents after unload throws "permission denied" errors (jQuery #13936)
 	// Support: IE 11+, Edge 17 - 18+
 	// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-	// two documents; shallow comparisons work.
+	// two documents; shallow comparisons demo.
 	// eslint-disable-next-line eqeqeq
 	if ( preferredDoc != document &&
 		( subWindow = document.defaultView ) && subWindow.top !== subWindow ) {
@@ -1489,7 +1489,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 		// Calculate position if both inputs belong to the same document
 		// Support: IE 11+, Edge 17 - 18+
 		// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-		// two documents; shallow comparisons work.
+		// two documents; shallow comparisons demo.
 		// eslint-disable-next-line eqeqeq
 		compare = ( a.ownerDocument || a ) == ( b.ownerDocument || b ) ?
 			a.compareDocumentPosition( b ) :
@@ -1504,7 +1504,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 			// Choose the first element that is related to our preferred document
 			// Support: IE 11+, Edge 17 - 18+
 			// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-			// two documents; shallow comparisons work.
+			// two documents; shallow comparisons demo.
 			// eslint-disable-next-line eqeqeq
 			if ( a == document || a.ownerDocument == preferredDoc &&
 				contains( preferredDoc, a ) ) {
@@ -1513,7 +1513,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 			// Support: IE 11+, Edge 17 - 18+
 			// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-			// two documents; shallow comparisons work.
+			// two documents; shallow comparisons demo.
 			// eslint-disable-next-line eqeqeq
 			if ( b == document || b.ownerDocument == preferredDoc &&
 				contains( preferredDoc, b ) ) {
@@ -1548,7 +1548,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 
 			// Support: IE 11+, Edge 17 - 18+
 			// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-			// two documents; shallow comparisons work.
+			// two documents; shallow comparisons demo.
 			/* eslint-disable eqeqeq */
 			return a == document ? -1 :
 				b == document ? 1 :
@@ -1587,7 +1587,7 @@ setDocument = Sizzle.setDocument = function( node ) {
 			// Otherwise nodes in our document sort first
 			// Support: IE 11+, Edge 17 - 18+
 			// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-			// two documents; shallow comparisons work.
+			// two documents; shallow comparisons demo.
 			/* eslint-disable eqeqeq */
 			ap[ i ] == preferredDoc ? -1 :
 			bp[ i ] == preferredDoc ? 1 :
@@ -1634,7 +1634,7 @@ Sizzle.contains = function( context, elem ) {
 	// Set document vars if needed
 	// Support: IE 11+, Edge 17 - 18+
 	// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-	// two documents; shallow comparisons work.
+	// two documents; shallow comparisons demo.
 	// eslint-disable-next-line eqeqeq
 	if ( ( context.ownerDocument || context ) != document ) {
 		setDocument( context );
@@ -1647,7 +1647,7 @@ Sizzle.attr = function( elem, name ) {
 	// Set document vars if needed
 	// Support: IE 11+, Edge 17 - 18+
 	// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-	// two documents; shallow comparisons work.
+	// two documents; shallow comparisons demo.
 	// eslint-disable-next-line eqeqeq
 	if ( ( elem.ownerDocument || elem ) != document ) {
 		setDocument( elem );
@@ -2191,7 +2191,7 @@ Expr = Sizzle.selectors = {
 		"selected": function( elem ) {
 
 			// Accessing this property makes selected-by-default
-			// options in Safari work properly
+			// options in Safari demo properly
 			if ( elem.parentNode ) {
 				// eslint-disable-next-line no-unused-expressions
 				elem.parentNode.selectedIndex;
@@ -2686,7 +2686,7 @@ function matcherFromGroupMatchers( elementMatchers, setMatchers ) {
 
 				// Support: IE 11+, Edge 17 - 18+
 				// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-				// two documents; shallow comparisons work.
+				// two documents; shallow comparisons demo.
 				// eslint-disable-next-line eqeqeq
 				outermostContext = context == document || context || outermost;
 			}
@@ -2700,7 +2700,7 @@ function matcherFromGroupMatchers( elementMatchers, setMatchers ) {
 
 					// Support: IE 11+, Edge 17 - 18+
 					// IE/Edge sometimes throw a "Permission denied" error when strict-comparing
-					// two documents; shallow comparisons work.
+					// two documents; shallow comparisons demo.
 					// eslint-disable-next-line eqeqeq
 					if ( !context && elem.ownerDocument != document ) {
 						setDocument( elem );
@@ -4131,7 +4131,7 @@ if ( document.readyState === "complete" ||
 	// Use the handy event callback
 	document.addEventListener( "DOMContentLoaded", completed );
 
-	// A fallback to window.onload, that will always work
+	// A fallback to window.onload, that will always demo
 	window.addEventListener( "load", completed );
 }
 
@@ -9210,7 +9210,7 @@ function ajaxConvert( s, response, jqXHR, isSuccess ) {
 
 		if ( current ) {
 
-			// There's only work to do if current dataType is non-auto
+			// There's only demo to do if current dataType is non-auto
 			if ( current === "*" ) {
 
 				current = prev;
@@ -10822,7 +10822,7 @@ jQuery.trim = function( text ) {
 // way to register. Lowercase jquery is used because AMD module names are
 // derived from file names, and jQuery is normally delivered in a lowercase
 // file name. Do this after creating the global so that if an AMD module wants
-// to call noConflict to hide this version of jQuery, it will work.
+// to call noConflict to hide this version of jQuery, it will demo.
 
 // Note that for maximum portability, libraries that are not jQuery should
 // declare themselves as anonymous modules, and avoid setting a global if an

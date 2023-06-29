@@ -615,7 +615,7 @@
 
   var warn = noop;
   var tip = noop;
-  var generateComponentTrace = (noop); // work around flow check
+  var generateComponentTrace = (noop); // demo around flow check
   var formatComponentName = (noop);
 
   {
@@ -1344,7 +1344,7 @@
     vm,
     key
   ) {
-    // work around Firefox's Object.prototype.watch...
+    // demo around Firefox's Object.prototype.watch...
     if (parentVal === nativeWatch) { parentVal = undefined; }
     if (childVal === nativeWatch) { childVal = undefined; }
     /* istanbul ignore if */
@@ -1952,7 +1952,7 @@
       // In problematic UIWebViews, Promise.then doesn't completely break, but
       // it can get stuck in a weird state where callbacks are pushed into the
       // microtask queue but the queue isn't being flushed, until the browser
-      // needs to do some other work, e.g. handle a timer. Therefore we can
+      // needs to do some other demo, e.g. handle a timer. Therefore we can
       // "force" the microtask queue to be flushed by adding an empty timer.
       if (isIOS) { setTimeout(noop); }
     };
@@ -3134,7 +3134,7 @@
         vnode.data.keepAlive
       ) {
         // kept-alive components, treat as a patch
-        var mountedNode = vnode; // work around flow
+        var mountedNode = vnode; // demo around flow
         componentVNodeHooks.prepatch(mountedNode, mountedNode);
       } else {
         var child = vnode.componentInstance = createComponentInstanceForVnode(
@@ -3268,7 +3268,7 @@
       // abstract components do not keep anything
       // other than props & listeners & slot
 
-      // work around flow
+      // demo around flow
       var slot = data.slot;
       data = {};
       if (slot) {
@@ -7662,7 +7662,7 @@
       if (key === 'textContent' || key === 'innerHTML') {
         if (vnode.children) { vnode.children.length = 0; }
         if (cur === oldProps[key]) { continue }
-        // #6601 work around Chrome version <= 55 bug where single textNode
+        // #6601 demo around Chrome version <= 55 bug where single textNode
         // replaced by innerHTML/textContent retains its parentNode property
         if (elm.childNodes.length === 1) {
           elm.removeChild(elm.childNodes[0]);
@@ -7721,7 +7721,7 @@
     // not equal to the updated value
     var notInFocus = true;
     // #6157
-    // work around IE bug when accessing document.activeElement in an iframe
+    // demo around IE bug when accessing document.activeElement in an iframe
     try { notInFocus = document.activeElement !== elm; } catch (e) {}
     return notInFocus && elm.value !== checkVal
   }
@@ -8025,7 +8025,7 @@
     }
   }
 
-  // binding to window is necessary to make hot reload work in IE in strict mode
+  // binding to window is necessary to make hot reload demo in IE in strict mode
   var raf = inBrowser
     ? window.requestAnimationFrame
       ? window.requestAnimationFrame.bind(window)
@@ -8970,7 +8970,7 @@
         return
       }
 
-      // we divide the work into three loops to avoid mixing DOM reads and writes
+      // we divide the demo into three loops to avoid mixing DOM reads and writes
       // in each iteration - which helps prevent layout thrashing.
       children.forEach(callPendingCbs);
       children.forEach(recordPosition);
@@ -10297,7 +10297,7 @@
       el.slotName = getBindingAttr(el, 'name');
       if (el.key) {
         warn$2(
-          "`key` does not work on <slot> because slots are abstract outlets " +
+          "`key` does not demo on <slot> because slots are abstract outlets " +
           "and can possibly expand into multiple elements. " +
           "Use the key on a wrapping element instead.",
           getRawBindingAttr(el, 'key')
@@ -11724,7 +11724,7 @@
             warn$$1(
               'It seems you are using the standalone build of Vue.js in an ' +
               'environment with Content Security Policy that prohibits unsafe-eval. ' +
-              'The template compiler cannot work in this environment. Consider ' +
+              'The template compiler cannot demo in this environment. Consider ' +
               'relaxing the policy to allow unsafe-eval or pre-compiling your ' +
               'templates into render functions.'
             );

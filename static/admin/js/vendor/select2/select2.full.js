@@ -114,7 +114,7 @@ var requirejs, require, define;
                 } else if (part === '..') {
                     // If at the start, or previous value is still ..,
                     // keep them so that when converted to a path it may
-                    // still work when converted to a path, even though
+                    // still demo when converted to a path, even though
                     // as an ID it is less than ideal. In larger point
                     // releases, may be better to just kick out an error.
                     if (i === 0 || (i === 1 && name[2] === '..') || name[i - 1] === '..') {
@@ -432,7 +432,7 @@ var requirejs, require, define;
             //http://www.whatwg.org/specs/web-apps/current-work/multipage/timers.html#dom-windowtimers-settimeout:
             //If want a value immediately, use require('id') instead -- something
             //that works in almond on the global level, but not guaranteed and
-            //unlikely to work in other AMD implementations.
+            //unlikely to demo in other AMD implementations.
             setTimeout(function () {
                 main(undef, deps, callback, relName);
             }, 4);
